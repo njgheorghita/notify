@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS "makers"(
+	"id"				SERIAL				PRIMARY KEY NOT NULL,
+	"cdpid"				INT					NOT NULL,
+	"threshold"			INT					NOT NULL,
+	"activeThreshold"   BOOLEAN				NOT NULL DEFAULT FALSE,
+	"network"			VARCHAR(100)		NOT NULL,
+	"phone"				VARCHAR(20)			NOT NULL,
+	"nonce"				INT					NOT NULL,
+	"createdAt"			TIMESTAMP			NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	"updatedAt"			TIMESTAMP			NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
