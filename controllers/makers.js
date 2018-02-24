@@ -14,8 +14,6 @@ exports.create = async (req, res, next) => {
   if(maker.errors) {
 	res.json({ maker });
   } else {
-	console.log("xxx")
-	console.log(serializedMaker)
 	res.json({ maker: serializedMaker });
   }
 };
