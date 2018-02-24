@@ -7,6 +7,13 @@ exports.all = async () => {
   return makers;
 };
 
+exports.find = async id => {
+  const maker = (await query('SELECT * FROM "makers" WHERE "id" = $1 LIMIT 1', [
+	id,
+  ])).rows[0];
+  return maker;
+};
+
 exports.findBy = async property => {
   const key = Object.keys(property)[0];
   let findByQuery;
@@ -35,6 +42,31 @@ exports.findBy = async property => {
   return maker;
 };
 
+exports.update = async newProperties => {
+  const oldProps = await this.find(newProperties.id);
+  const properties = { ...oldProps, ...newProperties };
+
+  const updatedMaker = (await query(
+	`UPDATE "makers" SET
+	"cdpid"=$1,
+	"threshold"=$2,
+	"activeThreshold"=$3,
+	"network"=$4,
+	"phone"=$5,
+	"nonce"=$6 WHERE id=$7 RETURNING *`,
+	[
+	  properties.cdpid,
+	  properties.threshold,
+	  properties.activeThreshold,
+	  properties.network,
+	  properties.phone,
+	  properties.nonce,
+	  properties.id,
+	]
+  )).rows[0];
+
+  return updatedMaker;
+};
 
 exports.create = async properties => {
   const errors = await validate(properties);

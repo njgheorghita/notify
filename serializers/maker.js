@@ -1,4 +1,4 @@
-module.exports = user => {
+module.exports = maker => {
   const serialized = {
 	id: maker.cdpid,
 	threshold: maker.threshold,

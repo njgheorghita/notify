@@ -10,7 +10,7 @@ describe('Maker', () => {
 	expect(makersBefore.length).toBe(0);
 
 	await Maker.create({
-	  cdpid: "123",
+	  cdpid: 123,
 	  threshold: 150,
 	  activeThreshold: true,
 	  network: "Rinkeby",
@@ -23,7 +23,7 @@ describe('Maker', () => {
 
   it('must have unique cdpid to be created', async () => {
 	await Maker.create({
-	  cdpid: "121",
+	  cdpid: 121,
 	  threshold: 150,
 	  activeThreshold: true,
 	  network: "Rinkeby",
@@ -31,7 +31,7 @@ describe('Maker', () => {
 	  nonce: 10,
 	});
 	const duplicateMaker = await Maker.create({
-	  cdpid: "121",
+	  cdpid: 121,
 	  threshold: 150,
 	  activeThreshold: true,
 	  network: "Rinkeby",
@@ -42,5 +42,28 @@ describe('Maker', () => {
 	expect(duplicateMaker).toEqual({ errors: ['Alert for this CDPID already made']});
 	const makers = await Maker.all();
 	expect(makers.length).toBe(1);
+  });
+
+  it('can be updated', async () => {
+	const originalMaker = await Maker.create({
+	  cdpid: 121,
+	  threshold: 150,
+	  activeThreshold: true,
+	  network: "Rinkeby",
+	  phone: "8168727883",
+	  nonce: 10,
+	});
+	await Maker.update({
+	  id: originalMaker.id,
+	  cdpid: 121,
+	  threshold: 140,
+	  activeThreshold: true,
+	  network: "Rinkeby",
+	  phone: "8168727883",
+	  nonce: 100,
+	});
+    const updatedMaker = await Maker.findBy({cdpid: 121});
+	expect(updatedMaker.nonce).toBe(100);
+	expect(updatedMaker.threshold).toBe(140);
   });
 });

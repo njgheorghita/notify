@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const index = require('./routes/index');
 const login = require('./routes/login');
 const users = require('./routes/users');
+const makers = require('./routes/makers');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(cookieParser());
 app.use('/', index);
 app.use('/login', login);
 app.use('/users', users);
+app.use('/makers', makers);
 
 app.use(function(req, res, next) {
   const err = new Error('Not Found');
