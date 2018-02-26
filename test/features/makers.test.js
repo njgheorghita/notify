@@ -4,6 +4,7 @@ const request = require('supertest');
 
 require('../helpers/testSetup');
 const app = require('../../app');
+const Maker = require('../../controllers/makers');
 
 describe('Makers', () => {
   it('can get an index of makers', async () => {
@@ -33,5 +34,10 @@ describe('Makers', () => {
 
 	expect(res.body.makers.length).toEqual(2);
 	expect(res.body.makers[0].network).toEqual('Rinkeby');
+  });
+
+  it('can poll for web3 balance', async () => {
+	const maker = await Maker.poll("12345", "rinkeby");
+	expect(maker).toBe("12345");
   });
 });
